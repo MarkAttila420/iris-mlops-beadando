@@ -45,26 +45,7 @@ The Iris Classification system uses scikit-learn to train a model on the classic
 
 ## Architecture
 
-```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│   Airflow   │───>│   MLflow    │<───│  Training   │
-│  Scheduler  │    │   Server    │    │  Notebook   │
-└─────────────┘    └─────────────┘    └─────────────┘
-       │                 ▲                   
-       │                 │                   
-       ▼                 │                   
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│  FastAPI    │<───│    Model    │───>│  Streamlit  │
-│     API     │    │  Artifacts  │    │  Dashboard  │
-└─────────────┘    └─────────────┘    └─────────────┘
-       ▲                                     ▲
-       │                                     │
-       └─────────────┐   ┌──────────────────┘
-                     ▼   ▼
-               ┌─────────────┐
-               │    User     │
-               └─────────────┘
-```
+![Iris MLOps Architecture](./architecture.png)
 
 ### Data Flow
 1. Training notebooks create models that are registered in MLflow
