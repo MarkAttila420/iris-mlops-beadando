@@ -1,0 +1,1 @@
+{"system": {"cpu_count": 12, "memory_total_gb": 15.93, "memory_available_gb": 1.11, "platform": "Windows", "python_version": "3.12.2", "processor": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD"}, "libraries": {"sklearn": "1.4.2", "numpy": "1.26.4", "mlflow": "2.22.0", "python": "3.12.2"}}

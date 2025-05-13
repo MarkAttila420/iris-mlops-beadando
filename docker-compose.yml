@@ -1,6 +1,26 @@
 version: '3.8'
 
 services:
+  # MLflow tracking server (move this to the top so it starts first)
+  mlflow:
+    build:
+      context: .
+      dockerfile: mlflow.Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/app/mlruns
+      - ./mlartifacts:/app/mlartifacts
+    networks:
+      - mlops-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # FastAPI service
   api:
     build: .
     ports:
@@ -10,3 +30,41 @@ services:
       - ./model.joblib:/app/model.joblib
       - ./scaler.joblib:/app/scaler.joblib
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - MODEL_PATH=/app/model.joblib
+      - SCALER_PATH=/app/scaler.joblib
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - MLFLOW_URL=http://mlflow:5000
+    depends_on:
+      mlflow:
+        condition: service_healthy
+    networks:
+      - mlops-network
+
+  # Streamlit dashboard
+  dashboard:
+    build:
+      context: .
+      dockerfile: streamlit.Dockerfile
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./streamlit_app:/app/streamlit_app
+      - ./model.joblib:/app/model.joblib
+      - ./scaler.joblib:/app/scaler.joblib
+      - ./report.html:/app/report.html
+    environment:
+      - API_URL=http://api:8000
+      - MLFLOW_URL=http://mlflow:5000
+    command: streamlit run streamlit_app/dashboard.py
+    depends_on:
+      api:
+        condition: service_started
+      mlflow:
+        condition: service_healthy
+    networks:
+      - mlops-network
+
+networks:
+  mlops-network:
+    driver: bridge
