@@ -1,229 +1,196 @@
-# Iris Classification MLOps Project
+# Iris Osztályozás MLOps Projekt
 
-This project demonstrates a complete MLOps (Machine Learning Operations) pipeline for a machine learning model that classifies iris flowers based on their measurements. It showcases the integration of modern ML tools and practices in a production-ready environment.
+Ez a projekt bemutat egy teljes MLOps (Machine Learning Operations – gépi tanulási műveletek) folyamatot egy gépi tanulási modellre, amely íriszvirágokat osztályoz a mért jellemzőik alapján. A projekt célja a modern gépi tanulási eszközök és gyakorlatok integrálása egy éles környezetben.
 
-## Project Overview
+## Projekt Áttekintés
 
-The Iris Classification system uses scikit-learn to train a model on the classic Iris dataset. The project implements a full MLOps pipeline including:
-- Model training and versioning
-- API deployment
-- User-friendly dashboard
-- Model monitoring and reporting
-- Automated workflow scheduling
+Az Iris osztályozó rendszer a scikit-learn könyvtárat használja a klasszikus Iris adathalmazon történő modelltanításhoz. A projekt egy teljes MLOps-folyamatot valósít meg, amely tartalmazza:
+- Modell tanítását és verziókövetését
+- API telepítést
+- Felhasználóbarát irányítópultot
+- Modell monitorozást és riportolást
+- Automatizált munkafolyamat ütemezést
 
-## Project Components
+## Projekt Elemei
 
 ### FastAPI Backend
-- REST API for serving predictions
-- Endpoint for real-time inference
-- Integration with MLflow for model loading
-- Input validation and error handling
+- REST API előrejelzésekhez
+- Valós idejű előrejelző végpont
+- MLflow integráció modell betöltéshez
+- Bemeneti validáció és hibakezelés
 
-### Streamlit Dashboard
-- User interface for making predictions
-- Interactive data visualization
-- Model monitoring reports
-- On-demand report generation
+### Streamlit Irányítópult
+- Felhasználói felület előrejelzésekhez
+- Interaktív adatvizualizáció
+- Modellmonitorozási jelentések
+- Igény szerinti riportgenerálás
 
 ### MLflow
-- Model tracking and versioning
-- Experiment comparison
-- Model registry
-- Centralized artifact storage
+- Modellkövetés és verziózás
+- Kísérletek összehasonlítása
+- Modellregisztráció
+- Központosított artefakt tárolás
 
 ### Evidently AI
-- Model monitoring reports
-- Data drift detection
-- Performance tracking
-- Automated report generation
+- Modellmonitorozási riportok
+- Adateltolódás észlelése
+- Teljesítménykövetés
+- Automatizált riportgenerálás
 
 ### Airflow
-- Workflow automation
-- Scheduled model retraining
-- DAG-based pipeline management
-- Failure handling and notifications
+- Munkafolyamat automatizálás
+- Ütemezett újratanítás
+- DAG-alapú pipeline kezelés
+- Hibakezelés és értesítések
 
-## Architecture
+## Architektúra
 
-![Iris MLOps Architecture](./architecture.png)
+![Iris MLOps Architektúra](./architecture.png)
 
-### Data Flow
-1. Training notebooks create models that are registered in MLflow
-2. Models and artifacts are versioned and stored
-3. FastAPI loads the model for inference
-4. Streamlit dashboard communicates with the API and MLflow
-5. Airflow schedules regular retraining and monitoring tasks
-6. Users interact with both the API and dashboard
+### Adatáramlás
+1. A tanító jegyzetfüzetek létrehozzák a modelleket, és regisztrálják azokat az MLflow-ban
+2. A modellek és artefaktok verziózva és tárolva lesznek
+3. A FastAPI betölti a modellt előrejelzéshez
+4. A Streamlit irányítópult kommunikál az API-val és az MLflow-val
+5. Az Airflow rendszeresen ütemezi az újratanítást és monitorozást
+6. A felhasználók az API-t és az irányítópultot is használhatják
 
-## Getting Started
+## Indítás
 
-### Prerequisites
+### Előfeltételek
 
-- Docker and Docker Compose
+- Docker és Docker Compose
 - Python 3.9+
 - Git
 
-### Running the Project
+### A projekt futtatása
 
-1. Clone the repository:
+1. Klónozd a repót:
 
 ```bash
 git clone <repository-url>
 cd iris-mlops-project
 ```
 
-2. Run the Docker Compose file:
+2. Indítsd el a Docker Compose fájlt:
 
 ```bash
 docker-compose up -d
 ```
 
-3. Access the services:
-   - Streamlit Dashboard: http://localhost:8501
-   - FastAPI API: http://localhost:8000
-   - MLflow Server: http://localhost:5000
-   - Airflow Webserver: http://localhost:8080
+3. Szolgáltatások elérhetősége:
 
-### Initial Setup
+- Streamlit Dashboard: http://localhost:8501
+- FastAPI API: http://localhost:8000
+- MLflow szerver: http://localhost:5000
+- Airflow felület: http://localhost:8080
 
-After starting the services, you'll need to:
+### Kezdeti beállítások
+A szolgáltatások elindítása után:
 
-1. Generate the initial model (if not present):
+1. Generáld le az elsődleges modellt (ha még nincs):
+
 ```bash
 python generate_initial_model.py
 ```
 
-2. Initialize MLflow experiment (if needed):
+2. Inicializáld az MLflow kísérletet (ha szükséges):
+
 ```bash
 python init_mlflow.py
 ```
+3. Generálj modellmonitorozási riportot:
 
-3. Generate a model monitoring report:
 ```bash
 python generate_report.py
 ```
 
-### Using the Services
+## Szolgáltatások használata
+### FastAPI
+- Előrejelzések: http://localhost:8000/predict
 
-#### FastAPI
-- Make predictions at: http://localhost:8000/predict
-- View API documentation at: http://localhost:8000/docs
+- API dokumentáció: http://localhost:8000/docs
 
-#### Streamlit Dashboard
-- Access the interactive UI at: http://localhost:8501
-- Use the sidebar to navigate between prediction and monitoring pages
+### Streamlit Irányítópult
+- Interaktív UI: http://localhost:8501
 
-#### MLflow
-- View experiments and models at: http://localhost:5000
-- Compare runs and download artifacts
+- Navigáció az oldalsáv segítségével
 
-#### Airflow
-- Access the Airflow UI at: http://localhost:8080
-- Default credentials: airflow/airflow
-- Activate DAGs as needed
+### MLflow
+- Kísérletek és modellek: http://localhost:5000
 
-### Running Tests
+- Futtatások összehasonlítása, artefaktok letöltése
+
+### Airflow
+- Felület: http://localhost:8080
+
+- Alapértelmezett belépési adatok: airflow/airflow
+
+- Aktiváld a szükséges DAG-okat
+
+### Tesztek futtatása
 
 ```bash
 pytest tests/
 ```
 
-## Project Structure
-
-```
-.
-├── app/                    # FastAPI application
-│   └── main.py             # API implementation
-├── airflow/                # Airflow configuration
-│   ├── dags/               # Airflow DAGs
+### Projektstruktúra
+```bash
+iris-mlops-beadando
+├── app/                    # FastAPI alkalmazás
+│   └── main.py             # API megvalósítás
+├── airflow/                # Airflow konfiguráció
+│   ├── dags/               # Airflow DAG-ok
 │   │   └── iris_dag.py     # Iris pipeline DAG
-│   ├── config/             # Airflow configuration files
-│   ├── logs/               # Airflow logs
-│   └── plugins/            # Airflow plugins
-├── mlruns/                 # MLflow tracking data
-├── mlartifacts/            # MLflow artifacts
-├── notebooks/              # Jupyter notebooks
-│   └── 01_training.ipynb   # Model training notebook
-├── streamlit_app/          # Streamlit dashboard
-│   └── dashboard.py        # Dashboard implementation
-├── tests/                  # Tests
-│   └── test_api.py         # API tests
-├── .env                    # Environment variables
-├── docker-compose.yml      # Docker Compose configuration
-├── Dockerfile              # Dockerfile for FastAPI app
-├── mlflow.Dockerfile       # Dockerfile for MLflow
-├── streamlit.Dockerfile    # Dockerfile for Streamlit
-├── create_experiment.py    # Script to create MLflow experiment
-├── generate_initial_model.py # Script to generate initial model
-├── generate_report.py      # Script to generate Evidently report
-├── init_mlflow.py          # Script to initialize MLflow
-├── model.joblib            # Saved model
-├── README.md               # This file
-├── requirements.txt        # Python dependencies
-├── scaler.joblib           # Saved scaler
-└── system_info.json        # System information
+│   ├── config/             # Airflow konfigurációs fájlok
+│   ├── logs/               # Airflow naplók
+│   └── plugins/            # Airflow pluginek
+├── mlruns/                 # MLflow nyomkövetési adatok
+├── mlartifacts/            # MLflow artefaktok
+├── notebooks/              # Jupyter jegyzetfüzetek
+│   └── 01_training.ipynb   # Modell tanító jegyzetfüzet
+├── streamlit_app/          # Streamlit irányítópult
+│   └── dashboard.py        # Irányítópult megvalósítás
+├── tests/                  # Tesztek
+│   └── test_api.py         # API tesztek
+├── .env                    # Környezeti változók
+├── docker-compose.yml      # Docker Compose konfiguráció
+├── Dockerfile              # Dockerfile FastAPI-hoz
+├── mlflow.Dockerfile       # Dockerfile MLflow-hoz
+├── streamlit.Dockerfile    # Dockerfile Streamlithez
+├── create_experiment.py    # MLflow kísérlet létrehozó script
+├── generate_initial_model.py # Kezdeti modell generálása
+├── generate_report.py      # Evidently riport generálása
+├── init_mlflow.py          # MLflow inicializálás
+├── model.joblib            # Elmentett modell
+├── README.md               # Ez a fájl
+├── requirements.txt        # Python csomagok
+├── scaler.joblib           # Elmentett skálázó
+└── system_info.json        # Rendszerinformáció
 ```
 
-## Model Information
+## Modell Információk
+### Adathalmaz
+A modell a klasszikus Iris adathalmazt használja, amely három íriszvirág fajra vonatkozó méréseket tartalmaz:
 
-### Dataset
-The model uses the classical Iris dataset, which contains measurements for three species of iris flowers:
 - Setosa
+
 - Versicolor
+
 - Virginica
 
-Features include sepal length, sepal width, petal length, and petal width.
+Jellemzők: csészelevél hossza/szélessége, szirom hossza/szélessége.
 
-### Model Architecture
-The system uses a scikit-learn classifier (typically Random Forest) trained on the Iris dataset. Feature scaling is applied to normalize inputs before prediction.
+### Modell Architektúra
+A rendszer egy scikit-learn osztályozót (általában Random Forest) használ, amely az Iris adathalmazon van betanítva. A jellemzők skálázása történik az előrejelzések előtt.
 
-### Performance Metrics
-The model is evaluated using:
-- Accuracy
-- Precision
-- Recall
-- F1 Score
+### Teljesítménymutatók
+A modellt a következő metrikákkal értékeljük:
 
-## Continuous Integration/Deployment
+- Pontosság (Accuracy)
 
-This project uses basic CI/CD principles:
-1. Code changes are tested automatically
-2. Models are versioned in MLflow
-3. Airflow handles regular retraining
-4. Docker containers ensure consistent environments
+- Precizitás (Precision)
 
-## Troubleshooting
+- Visszahívás (Recall)
 
-### Common Issues
-
-#### MLflow Connection Problems
-- Ensure MLflow server is healthy with `docker-compose ps`
-- Check if the correct port is exposed (5000)
-- Verify network connectivity between containers
-
-#### API Errors
-- Check logs with `docker-compose logs api`
-- Ensure model.joblib and scaler.joblib exist
-- Verify environment variables are correctly set
-
-#### Dashboard Issues
-- Check logs with `docker-compose logs dashboard`
-- Ensure API is accessible from the dashboard
-- Verify report generation is working
-
-## Development Guidelines
-
-### Adding New Features
-1. Create a feature branch
-2. Implement changes with tests
-3. Update documentation
-4. Submit a pull request
-
-### Model Updates
-1. Update the training notebook
-2. Register new model in MLflow
-3. Update the model artifact or API to use new version
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+- F1 Pontszám
